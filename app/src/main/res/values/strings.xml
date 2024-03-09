@@ -11,4 +11,14 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="shapeshifters">ShapeShifters</string>
+    <string name="email_hint">Email address</string>
+    <string name="password_hint">Password</string>
+    <string name="login">Login</string>
+    <string name="signup">Sign up</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="new_user_sign_up">Don\'t have an account? Sign up!</string>
+    <string name="first_name">Fist name</string>
+    <string name="last_name">Last name</string>
+    <string name="account_type">Register as a trainer</string>
+    <string name="user_login">Already have an account? Login!</string>
 </resources>
