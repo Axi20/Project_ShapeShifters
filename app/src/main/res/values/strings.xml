@@ -21,4 +21,9 @@
     <string name="last_name">Last name</string>
     <string name="account_type">Register as a trainer</string>
     <string name="user_login">Already have an account? Login!</string>
+
+    <string name="your_username">Your username</string>
+    <string name="your_email">Your email</string>
+
+
 </resources>

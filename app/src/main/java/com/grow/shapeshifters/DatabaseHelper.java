@@ -1,7 +1,10 @@
 package com.grow.shapeshifters;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -35,6 +38,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_USER_PASSWORD = "password";
     private static final String KEY_USER_ACCOUNT_TYPE = "account_type";
 
+    private Context context;
+
     /**
      * Constructs a new instance of {@link DatabaseHelper}.
      *
@@ -42,6 +47,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
     }
 
     /**
@@ -121,12 +127,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public boolean login(String email, String inputPassword) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT " + KEY_USER_PASSWORD + " FROM " + TABLE_USERS + " WHERE " + KEY_USER_EMAIL + " = ?";
+
+
+        String query = "SELECT * " + " FROM " + TABLE_USERS + " WHERE " + KEY_USER_EMAIL + " = ?";
         Cursor cursor = db.rawQuery(query, new String[]{email});
 
         if (cursor.moveToFirst()) {
             // Retrieve the stored password hash from the cursor.
             String storedPasswordHash = cursor.getString(cursor.getColumnIndexOrThrow(KEY_USER_PASSWORD));
+            String firstname = cursor.getString(cursor.getColumnIndexOrThrow(KEY_USER_FIRSTNAME));
+            String lastname = cursor.getString(cursor.getColumnIndexOrThrow(KEY_USER_LASTNAME));
+            String emails = cursor.getString(cursor.getColumnIndexOrThrow(KEY_USER_EMAIL));
+            SharedPreferences sharedPreferences = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+
+            editor.putString("Firstname", firstname);
+            editor.putString("Lastname", lastname);
+            editor.putString("Email", emails);
+            editor.apply();
+
             cursor.close();
             // Verify the input password against the stored hash.
            return checkPassword(inputPassword, storedPasswordHash);

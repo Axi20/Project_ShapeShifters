@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import com.google.android.material.navigation.NavigationView;
 import android.content.SharedPreferences;
+import android.view.View;
+import android.widget.TextView;
+
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -46,6 +49,25 @@ public class MainActivity extends AppCompatActivity {
 
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
+
+        // Retrieve the header view at index 0 (the first header view if there are multiple)
+        View headerView = navigationView.getHeaderView(0);
+        // Find the TextViews for username and email within the header
+        TextView userNameTextView = headerView.findViewById(R.id.nav_name);
+        TextView userEmailTextView = headerView.findViewById(R.id.nav_email);
+
+        // Retrieve the username and email from SharedPreferences
+        String firstname = getFirstname();
+        String lastname = getLastname();
+        String email = getEmail();
+
+        // Concatenate the firstname and lastname for the full name
+        String fullName = firstname + " " + lastname;
+
+        // Update the TextViews with the retrieved username and email
+        userNameTextView.setText(fullName);
+        userEmailTextView.setText(email);
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -55,13 +77,38 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+    /**
+     * Retrieves the firstname of the currently logged-in user.
+     *
+     * @return The firstname of the user, or an empty string if not found.
+     */
+    public String getFirstname() {
+        SharedPreferences sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE);
+        return sharedPreferences.getString("Firstname", "");
+    }
+
+    /**
+     * Retrieves the lastname of the currently logged-in user.
+     *
+     * @return The lastname of the user, or an empty string if not found.
+     */
+    public String getLastname() {
+        SharedPreferences sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE);
+        return sharedPreferences.getString("Lastname", "");
+    }
+
+    /**
+     * Retrieves the email of the currently logged-in user.
+     *
+     * @return The email of the user, or an empty string if not found.
+     */
+    public String getEmail() {
+        SharedPreferences sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE);
+        return sharedPreferences.getString("Email", "");
     }
 
     @Override
