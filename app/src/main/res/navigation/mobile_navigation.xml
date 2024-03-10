@@ -12,14 +12,20 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.grow.shapeshifters.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_group_trainings"
+        android:name="com.grow.shapeshifters.ui.group_trainings.GroupTrainingsFragment"
+        android:label="@string/menu_group_training"
+        tools:layout="@layout/fragment_group_trainings" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.grow.shapeshifters.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_personal_trainings"
+        android:name="com.grow.shapeshifters.ui.personal_trainings.PersonalTrainingsFragment"
+        android:label="@string/menu_personal_trainings"
+        tools:layout="@layout/fragment_personal_trainings" />
+
+    <fragment
+        android:id="@+id/nav_manage_clients"
+        android:name="com.grow.shapeshifters.ui.manage_clients.ManageClientsFragment"
+        android:label="@string/menu_manage_clients"
+        tools:layout="@layout/fragment_manage_clients" />
 </navigation>

@@ -1,16 +1,16 @@
-package com.grow.shapeshifters.ui.slideshow;
+package com.grow.shapeshifters.ui.manage_clients;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class SlideshowViewModel extends ViewModel {
+public class ManageClientsViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public SlideshowViewModel() {
+    public ManageClientsViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is slideshow fragment");
+        mText.setValue("This is manage clients fragment");
     }
 
     public LiveData<String> getText() {

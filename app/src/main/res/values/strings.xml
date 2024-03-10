@@ -24,6 +24,9 @@
 
     <string name="your_username">Your username</string>
     <string name="your_email">Your email</string>
+    <string name="menu_group_training">Group trainings</string>
+    <string name="menu_personal_trainings">Personal trainings</string>
+    <string name="menu_manage_clients">Manage clients</string>
 
 
 </resources>
