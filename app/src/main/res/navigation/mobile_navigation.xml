@@ -28,4 +28,10 @@
         android:name="com.grow.shapeshifters.ui.manage_clients.ManageClientsFragment"
         android:label="@string/menu_manage_clients"
         tools:layout="@layout/fragment_manage_clients" />
+
+    <fragment
+        android:id="@+id/nav_add_clients"
+        android:name="com.grow.shapeshifters.ui.add_clients.AddClientsFragment"
+        android:label="@string/menu_add_clients"
+        tools:layout="@layout/fragment_add_clients" />
 </navigation>

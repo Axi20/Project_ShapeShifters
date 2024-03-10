@@ -4,13 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
-
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+import com.grow.shapeshifters.R;
 import com.grow.shapeshifters.databinding.FragmentManageClientsBinding;
 
 public class ManageClientsFragment extends Fragment {
@@ -25,8 +24,17 @@ public class ManageClientsFragment extends Fragment {
         binding = FragmentManageClientsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        /*
         final TextView textView = binding.textManageClients;
         manageClientsFragment.getText().observe(getViewLifecycleOwner(), textView::setText);
+         */
+
+        binding.addClientsBtn.setOnClickListener(view -> {
+            NavController navController = NavHostFragment.findNavController(ManageClientsFragment.this);
+            // Use the action ID to navigate
+            navController.navigate(R.id.nav_add_clients);
+        });
+
         return root;
     }
 

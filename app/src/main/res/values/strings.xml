@@ -27,6 +27,7 @@
     <string name="menu_group_training">Group trainings</string>
     <string name="menu_personal_trainings">Personal trainings</string>
     <string name="menu_manage_clients">Manage clients</string>
+    <string name="menu_add_clients">Add clients</string>
 
 
 </resources>

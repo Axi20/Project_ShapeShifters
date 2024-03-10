@@ -1,20 +1,16 @@
 package com.grow.shapeshifters;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import com.google.android.material.navigation.NavigationView;
 import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.TextView;
-
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.grow.shapeshifters.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.appBarMain.toolbar);
 
+        /*
         binding.appBarMain.logoutBtn.setOnClickListener(view -> {
             // Directly use getSharedPreferences to update the login state.
             SharedPreferences sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE);
@@ -46,39 +43,38 @@ public class MainActivity extends AppCompatActivity {
             // Call finish to ensure this activity is closed.
             finish();
         });
+         */
 
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
 
-        // Retrieve the header view at index 0 (the first header view if there are multiple)
+        // Retrieve the header view at index 0 (the first header view if there are multiple).
         View headerView = navigationView.getHeaderView(0);
-        // Find the TextViews for username and email within the header
+        // Find the TextViews for username and email within the header.
         TextView userNameTextView = headerView.findViewById(R.id.nav_name);
         TextView userEmailTextView = headerView.findViewById(R.id.nav_email);
 
-        // Retrieve the username and email from SharedPreferences
+        // Retrieve the username and email from SharedPreferences.
         String firstname = getFirstname();
         String lastname = getLastname();
         String email = getEmail();
 
-        // Concatenate the firstname and lastname for the full name
+        // Concatenate the firstname and lastname for the full name.
         String fullName = firstname + " " + lastname;
 
-        // Update the TextViews with the retrieved username and email
+        // Update the TextViews with the retrieved username and email.
         userNameTextView.setText(fullName);
         userEmailTextView.setText(email);
 
-        // Passing each menu ID as a set of Ids because each
+        // Passing each menu ID as a set of Ids because each.
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_group_trainings, R.id.nav_personal_trainings, R.id.nav_manage_clients)
+                R.id.nav_home, R.id.nav_group_trainings, R.id.nav_personal_trainings, R.id.nav_manage_clients, R.id.nav_add_clients)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
-
     }
 
     /**
