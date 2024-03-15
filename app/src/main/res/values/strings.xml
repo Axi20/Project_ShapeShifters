@@ -28,6 +28,26 @@
     <string name="menu_personal_trainings">Personal trainings</string>
     <string name="menu_manage_clients">Manage clients</string>
     <string name="menu_add_clients">Add clients</string>
+    <string name="submit">Submit</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_gender">Gender</string>
+    <string name="hint_male">Male</string>
+    <string name="hint_female">Female</string>
+    <string name="hint_date_of_birth">Date of birth</string>
+    <string name="hint_phone_number">Phone number</string>
+    <string name="hint_fitness_level">Fitness level</string>
+    <string name="hint_fitness_goals">Fitness goals</string>
+    <string name="hint_preferred_training_slots">Preferred Training Slots</string>
+    <string name="hint_m">M</string>
+    <string name="hint_t">T</string>
+    <string name="hint_w">W</string>
+    <string name="hint_th">T</string>
+    <string name="hint_f">F</string>
+    <string name="hint_s">S</string>
+    <string name="hint_sun">S</string>
+    <string name="hint_membership_start_date">Membership start date</string>
+    <string name="hint_weight_kg">Weight (kg)</string>
+    <string name="hint_body_fat_percentage">Body Fat Percentage (%)</string>
 
 
 </resources>
