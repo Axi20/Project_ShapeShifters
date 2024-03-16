@@ -8,10 +8,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Base64;
 import android.util.Log;
+
+import com.grow.shapeshifters.ui.manage_clients.Client;
+
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -369,4 +374,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Return the client ID of the newly added client.
         return clientId;
     }
+
+    /**
+     * Retrieves all clients from the database.
+     * This method queries the database for all entries in the clients table, constructs a list of Client objects
+     * with the data retrieved for each row, and returns this list. Each Client object in the list contains at least
+     * the client's ID and name, which are extracted from the cursor.
+     *
+     * @return A list of Client objects, each representing a client in the database.
+     * The list will be empty if there are no clients.
+     */
+    public List<Client> getAllClients() {
+        List<Client> clients = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT * FROM " + TABLE_CLIENTS;
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Client client = new Client();
+                client.setId(cursor.getLong(cursor.getColumnIndexOrThrow(KEY_CLIENT_ID)));
+                client.setName(cursor.getString(cursor.getColumnIndexOrThrow(KEY_CLIENT_NAME)));
+                clients.add(client);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return clients;
+    }
+
 }
