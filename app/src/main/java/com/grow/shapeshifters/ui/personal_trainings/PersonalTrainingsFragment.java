@@ -18,14 +18,10 @@ public class PersonalTrainingsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        PersonalTrainingsViewModel personalTrainingsViewModel =
-                new ViewModelProvider(this).get(PersonalTrainingsViewModel.class);
 
         binding = FragmentPersonalTrainingsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textPersonalTrainings;
-        personalTrainingsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 

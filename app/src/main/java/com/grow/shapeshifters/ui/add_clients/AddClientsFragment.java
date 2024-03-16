@@ -30,8 +30,6 @@ public class AddClientsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        AddClientsViewModel addClientsViewModel =
-                new ViewModelProvider(this).get(AddClientsViewModel.class);
 
         binding = FragmentAddClientsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
