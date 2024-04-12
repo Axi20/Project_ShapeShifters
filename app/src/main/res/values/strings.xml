@@ -48,6 +48,12 @@
     <string name="hint_membership_start_date">Membership start date</string>
     <string name="hint_weight_kg">Weight (kg)</string>
     <string name="hint_body_fat_percentage">Body Fat Percentage (%)</string>
+    <string name="menu_add_workouts">Add workouts</string>
+    <string name="exercise_name">Name of the exercise</string>
+    <string name="reps">Repetition count</string>
+    <string name="sets">How many set</string>
+    <string name="weight">Add the weight (kg)</string>
+    <string name="menu_manage_workouts">Manage workouts</string>
 
 
 </resources>

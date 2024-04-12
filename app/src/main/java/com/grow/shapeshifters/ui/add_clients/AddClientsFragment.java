@@ -153,6 +153,7 @@ public class AddClientsFragment extends Fragment {
         } else {
             Toast.makeText(getActivity(), "Failed to add client, try again!", Toast.LENGTH_SHORT).show();
         }
+        db.close();
     }
 
     /**

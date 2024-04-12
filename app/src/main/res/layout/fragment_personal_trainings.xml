@@ -68,10 +68,13 @@
                 app:cardCornerRadius="10dp">
 
                 <LinearLayout
+                    android:id="@+id/add_workout_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/purple"
                     android:gravity="center_horizontal"
+                    android:focusable="true"
+                    android:clickable="true"
                     android:orientation="vertical">
 
                     <ImageView

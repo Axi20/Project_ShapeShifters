@@ -1,5 +1,7 @@
 package com.grow.shapeshifters.ui.manage_clients;
 
+import androidx.annotation.NonNull;
+
 public class Client {
     private long id;
     private String name;
@@ -20,6 +22,12 @@ public class Client {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return name;
     }
 
 }

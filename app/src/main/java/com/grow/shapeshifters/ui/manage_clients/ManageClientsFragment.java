@@ -26,8 +26,6 @@ public class ManageClientsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        ManageClientsViewModel manageClientsFragment =
-                new ViewModelProvider(this).get(ManageClientsViewModel.class);
 
         binding = FragmentManageClientsBinding.inflate(inflater, container, false);
 
@@ -69,6 +67,7 @@ public class ManageClientsFragment extends Fragment {
 
         // Notify the adapter that the data has changed.
         adapter.notifyDataSetChanged();
+        db.close();
     }
 
     @Override

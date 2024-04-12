@@ -10,6 +10,7 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.grow.shapeshifters.ui.manage_clients.Client;
+import com.grow.shapeshifters.ui.manage_workouts.Exercise;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -35,6 +36,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_USERS = "users";
     private static final String TABLE_CLIENTS = "clients";
     private static final String TABLE_TRAINING_SLOTS = "training_slots";
+    private static final String TABLE_PERSONAL_TRAININGS = "personal_trainings";
+    private static final String TABLE_EXERCISES = "exercises";
 
     // User Table Columns
     private static final String KEY_USER_ID = "id";
@@ -61,6 +64,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_TRAINING_SLOT_CLIENT_ID = "training_slot_client_id";
     private static final String KEY_TRAINING_SLOT_DAY_OF_WEEK = "training_slot_day_of_week";
     private static final String KEY_TRAINING_SLOT_TIME_SLOT = "training_slot_time_slot";
+
+    // PersonalTrainings table Columns
+    private static final String KEY_PERSONAL_TRAININGS_ID = "personal_trainings_id";
+    private static final String KEY_PERSONAL_TRAININGS_CLIENT_ID = "personal_trainings_client_id";
+    private static final String KEY_PERSONAL_TRAININGS_WORKOUT_DATE = "personal_trainings_workout_date";
+    private static final String KEY_PERSONAL_TRAININGS_NOTES = "personal_trainings_notes";
+
+    // Exercises table Columns
+    private static final String KEY_EXERCISES_ID = "exercises_id";
+    private static final String KEY_EXERCISES_PERSONAL_TRAININGS_ID = "exercises_personal_trainings_id";
+    private static final String KEY_EXERCISES_NAME = "exercises_name";
+    private static final String KEY_EXERCISES_REPETITIONS = "exercises_repetitions";
+    private static final String KEY_EXERCISES_SETS = "exercises_sets";
+    private static final String KEY_EXERCISES_WEIGHT = "exercises_weight";
+
     private Context context;
 
     /**
@@ -120,6 +138,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 TABLE_CLIENTS + "(" + KEY_CLIENT_ID + ")" +
                 ")";
         db.execSQL(CREATE_TRAINING_SLOTS_TABLE);
+
+        // SQL statement to create "personal_trainings" table.
+        String CREATE_PERSONAL_TRAININGS_TABLE = "CREATE TABLE " + TABLE_PERSONAL_TRAININGS +
+                "(" +
+                KEY_PERSONAL_TRAININGS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                KEY_PERSONAL_TRAININGS_CLIENT_ID + " INTEGER," +
+                KEY_PERSONAL_TRAININGS_WORKOUT_DATE + " TEXT," +
+                KEY_PERSONAL_TRAININGS_NOTES + " TEXT," +
+                "FOREIGN KEY(" + KEY_PERSONAL_TRAININGS_CLIENT_ID + ") REFERENCES " +
+                TABLE_CLIENTS + "(" + KEY_CLIENT_ID + ")" +
+                ")";
+        db.execSQL(CREATE_PERSONAL_TRAININGS_TABLE);
+
+        // SQL statement to create "exercises" table.
+        String CREATE_EXERCISES_TABLE = "CREATE TABLE " + TABLE_EXERCISES +
+                "(" +
+                KEY_EXERCISES_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                KEY_EXERCISES_PERSONAL_TRAININGS_ID + " INTEGER," +
+                KEY_EXERCISES_NAME + " TEXT," +
+                KEY_EXERCISES_REPETITIONS + " INTEGER," +
+                KEY_EXERCISES_SETS + " INTEGER," +
+                KEY_EXERCISES_WEIGHT + " TEXT," +
+                "FOREIGN KEY(" + KEY_EXERCISES_PERSONAL_TRAININGS_ID + ") REFERENCES " +
+                TABLE_PERSONAL_TRAININGS + "(" + KEY_PERSONAL_TRAININGS_ID + ")" +
+                ")";
+        db.execSQL(CREATE_EXERCISES_TABLE);
     }
 
     /**
@@ -401,6 +445,59 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return clients;
+    }
+
+    /**
+     * Saves a workout along with its exercises to the database.
+     *
+     * @param clientId The ID of the client for whom the workout is being saved.
+     * @param workoutDate The date of the workout.
+     * @param notes Optional notes for the workout.
+     * @param exercises List of Exercise objects representing the exercises included in the workout.
+     * @return The ID of the newly added workout, or -1 if an error occurred.
+     */
+    public long saveWorkoutDetails(long clientId, String workoutDate, String notes, List<Exercise> exercises) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Start a transaction to ensure both workout and exercises are saved atomically.
+        db.beginTransaction();
+        long workoutId = -1;
+        try {
+            ContentValues workoutValues = new ContentValues();
+            workoutValues.put(KEY_PERSONAL_TRAININGS_CLIENT_ID, clientId);
+            workoutValues.put(KEY_PERSONAL_TRAININGS_WORKOUT_DATE, workoutDate);
+            workoutValues.put(KEY_PERSONAL_TRAININGS_NOTES, notes);
+
+            // Inserting Workout Details
+            workoutId = db.insert(TABLE_PERSONAL_TRAININGS, null, workoutValues);
+
+            // Check if workout was successfully added
+            if (workoutId == -1) {
+                return -1; // Workout insertion failed
+            }
+
+            // Inserting Exercises for the Workout
+            for (Exercise exercise : exercises) {
+                ContentValues exerciseValues = new ContentValues();
+                exerciseValues.put(KEY_EXERCISES_PERSONAL_TRAININGS_ID, workoutId);
+                exerciseValues.put(KEY_EXERCISES_NAME, exercise.getName());
+                exerciseValues.put(KEY_EXERCISES_REPETITIONS, exercise.getRepetitions());
+                exerciseValues.put(KEY_EXERCISES_SETS, exercise.getSets());
+                exerciseValues.put(KEY_EXERCISES_WEIGHT, exercise.getWeight());
+
+                long exerciseId = db.insert(TABLE_EXERCISES, null, exerciseValues);
+                if (exerciseId == -1) {
+                    db.endTransaction(); // End the transaction prematurely.
+                    return -1; // Exercise insertion failed.
+                }
+            }
+
+            db.setTransactionSuccessful(); // Mark the transaction as successful.
+        } finally {
+            db.endTransaction(); // End the transaction.
+        }
+
+        return workoutId; // Return the ID of the newly added workout.
     }
 
 }

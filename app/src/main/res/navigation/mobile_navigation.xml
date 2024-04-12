@@ -34,4 +34,16 @@
         android:name="com.grow.shapeshifters.ui.add_clients.AddClientsFragment"
         android:label="@string/menu_add_clients"
         tools:layout="@layout/fragment_add_clients" />
+
+    <fragment
+        android:id="@+id/nav_manage_workouts"
+        android:name="com.grow.shapeshifters.ui.manage_workouts.ManageWorkoutsFragment"
+        android:label="@string/menu_manage_workouts"
+        tools:layout="@layout/fragment_manage_workouts" />
+
+    <fragment
+        android:id="@+id/nav_add_workouts"
+        android:name="com.grow.shapeshifters.ui.add_workouts.AddWorkoutsFragment"
+        android:label="@string/menu_add_workouts"
+        tools:layout="@layout/fragment_add_workouts" />
 </navigation>
