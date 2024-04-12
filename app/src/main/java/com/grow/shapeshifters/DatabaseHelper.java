@@ -57,7 +57,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_CLIENT_FITNESS_GOAL = "client_fitness_goal";
     private static final String KEY_CLIENT_MEMBERSHIP_START_DATE = "client_membership_start_date";
     private static final String KEY_CLIENT_WEIGHT = "client_weight";
-    private static final String KEY_CLIENT_BODY_FAT_PERCENTAGE = "client_body_fat_percentage";
+    private static final String KEY_CLIENT_NOTES = "client_notes";
 
     // TrainingSlots Table Columns
     private static final String KEY_TRAINING_SLOT_ID = "training_slot_id";
@@ -123,7 +123,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 KEY_CLIENT_FITNESS_GOAL + " TEXT," +
                 KEY_CLIENT_MEMBERSHIP_START_DATE + " TEXT," +
                 KEY_CLIENT_WEIGHT + " REAL," +
-                KEY_CLIENT_BODY_FAT_PERCENTAGE + " REAL" +
+                KEY_CLIENT_NOTES + " TEXT" +
                 ")";
         db.execSQL(CREATE_CLIENTS_TABLE);
 
@@ -341,10 +341,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @param fitnessGoals         The fitness goals.
      * @param membershipStartDate  The date when the client's membership starts.
      * @param weight               The weight of the client in kilograms.
-     * @param bodyFatPercentage    The body fat percentage of the client.
+     * @param notes                Notes about the client.
      * @return                     The row ID of the newly inserted client, or -1 if an error occurred.
      */
-    protected long addClient(String name, String gender, String dateOfBirth, String phoneNumber, String fitnessLevel, String fitnessGoals, String membershipStartDate, double weight, double bodyFatPercentage) {
+    protected long addClient(String name, String gender, String dateOfBirth, String phoneNumber, String fitnessLevel, String fitnessGoals, String membershipStartDate, double weight, String notes) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -356,7 +356,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_CLIENT_FITNESS_GOAL, fitnessGoals);
         values.put(KEY_CLIENT_MEMBERSHIP_START_DATE, membershipStartDate);
         values.put(KEY_CLIENT_WEIGHT, weight);
-        values.put(KEY_CLIENT_BODY_FAT_PERCENTAGE, bodyFatPercentage);
+        values.put(KEY_CLIENT_NOTES, notes);
 
         return db.insert(TABLE_CLIENTS, null, values);
     }
@@ -393,13 +393,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @param fitnessGoals The fitness goals of the client.
      * @param membershipStartDate The start date of the client's membership.
      * @param weight The weight of the client.
-     * @param bodyFatPercentage The body fat percentage of the client.
+     * @param notes Notes about the client.
      * @param trainingSlots A map of days to times for the client's preferred training slots.
      * @return The ID of the newly added client or -1 if an error occurred.
      */
-    public long addClientWithTrainingSlots(String name, String gender, String dateOfBirth, String phoneNumber, String fitnessLevel, String fitnessGoals, String membershipStartDate, double weight, double bodyFatPercentage, Map<String, String> trainingSlots) {
+    public long addClientWithTrainingSlots(String name, String gender, String dateOfBirth, String phoneNumber, String fitnessLevel, String fitnessGoals, String membershipStartDate, double weight, String notes, Map<String, String> trainingSlots) {
         // First, add the client to the database and get the client ID.
-        long clientId = addClient(name, gender, dateOfBirth, phoneNumber, fitnessLevel, fitnessGoals, membershipStartDate, weight, bodyFatPercentage);
+        long clientId = addClient(name, gender, dateOfBirth, phoneNumber, fitnessLevel, fitnessGoals, membershipStartDate, weight, notes);
 
         // Check if client was successfully added.
         if (clientId == -1) {

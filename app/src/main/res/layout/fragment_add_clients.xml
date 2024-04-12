@@ -9,8 +9,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/rounded_background"
+        android:backgroundTint="#665C6BC0"
         android:orientation="vertical"
+        android:foregroundGravity="center"
         android:layout_gravity="center"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="45dp"
+        android:layout_marginTop="?attr/actionBarSize"
         android:padding="16dp">
 
         <EditText
@@ -20,13 +27,13 @@
             android:layout_marginBottom="8dp"
             android:autofillHints="name"
             android:focusable="true"
+            android:focusableInTouchMode="true"
             android:hint="@string/hint_name"
             android:inputType="text"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <LinearLayout
             android:id="@+id/linearLayoutGender"
-            android:background="@drawable/rounded_background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -36,7 +43,8 @@
                 android:layout_width="109dp"
                 android:layout_height="wrap_content"
                 android:text="@string/hint_gender"
-                android:textSize="20sp"
+                android:paddingStart="3dp"
+                android:textSize="18sp"
                 android:layout_gravity="center" />
 
             <RadioGroup
@@ -48,14 +56,14 @@
                     android:id="@+id/client_male"
                     android:layout_width="109dp"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:text="@string/hint_male" />
 
                 <RadioButton
                     android:id="@+id/client_female"
                     android:layout_width="115dp"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:text="@string/hint_female" />
             </RadioGroup>
         </LinearLayout>
@@ -66,7 +74,7 @@
             android:layout_height="wrap_content"
             android:focusable="true"
             android:hint="@string/hint_date_of_birth"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:inputType="date"
             android:layout_marginBottom="8dp"
             android:autofillHints="birthday" />
@@ -78,14 +86,13 @@
             android:hint="@string/hint_phone_number"
             android:focusable="true"
             android:inputType="phone"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:layout_marginBottom="8dp"
             android:autofillHints="phone" />
 
         <LinearLayout
             android:id="@+id/linearLayout6"
-            android:background="@drawable/rounded_background"
-            android:layout_width="match_parent"
+            android:layout_width="379dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
@@ -94,15 +101,17 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="20sp"
-                android:text="@string/hint_fitness_level" />
+                android:paddingStart="3dp"
+                android:text="@string/hint_fitness_level"
+                android:textSize="18sp" />
 
             <Spinner
                 android:id="@+id/fitness_level_spinner"
                 android:layout_width="48dp"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:layout_weight="1"/>
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:background="@drawable/underline"
+                android:textSize="20sp" />
         </LinearLayout>
 
         <EditText
@@ -110,7 +119,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_fitness_goals"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:inputType="textMultiLine"
             android:gravity="start|top"
             android:layout_marginBottom="8dp"
@@ -119,7 +128,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="18sp"
+            android:paddingStart="3dp"
             android:text="@string/hint_preferred_training_slots" />
 
         <LinearLayout
@@ -190,33 +200,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="date"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:focusable="true"
             android:hint="@string/hint_membership_start_date"
-            android:layout_marginBottom="8dp"
-            android:autofillHints="date" />
+            android:layout_marginBottom="8dp" />
 
         <EditText
             android:id="@+id/client_weight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:hint="@string/hint_weight_kg"
             android:focusable="true"
-            android:layout_marginBottom="8dp"
-            android:autofillHints="number" />
+            android:layout_marginBottom="8dp" />
 
         <EditText
-            android:id="@+id/client_body_fat_percentage"
+            android:id="@+id/client_notes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:textSize="20sp"
+            android:inputType="textMultiLine"
+            android:textSize="18sp"
             android:focusable="true"
-            android:hint="@string/hint_body_fat_percentage"
-            android:layout_marginBottom="8dp"
-            android:autofillHints="number" />
+            android:hint="@string/notes"
+            android:layout_marginBottom="8dp" />
 
         <Button
             android:id="@+id/client_add_btn"
@@ -224,6 +231,7 @@
             android:layout_height="wrap_content"
             android:text="@string/submit"
             android:textSize="20sp"
+            android:textColor="@color/custom_grey"
             android:layout_gravity="center_horizontal"/>
 
     </LinearLayout>

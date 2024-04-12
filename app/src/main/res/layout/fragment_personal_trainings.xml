@@ -6,51 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".ui.personal_trainings.PersonalTrainingsFragment">
 
-    <LinearLayout
-        android:id="@+id/next_workout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@color/purple"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.003">
-
-        <ImageView
-            android:id="@+id/info_imageView"
-            android:layout_width="12dp"
-            android:layout_height="43dp"
-            android:layout_weight="1"
-            android:src="@drawable/ic_info" />
-
-        <TextView
-            android:id="@+id/info_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_weight="1"
-            android:text="Next workout"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/next_workout_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="John - March 17 17:30"
-            android:textSize="18sp" />
-    </LinearLayout>
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/next_workout"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
         tools:layout_editor_absoluteX="0dp">
 
@@ -59,6 +19,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
@@ -72,22 +34,22 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/purple"
-                    android:gravity="center_horizontal"
-                    android:focusable="true"
                     android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_horizontal"
                     android:orientation="vertical">
 
                     <ImageView
+                        android:id="@+id/workout_image"
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/workout" />
+                        android:scaleType="centerCrop" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
-                        android:text="Workouts"
+                        android:text="@string/workouts"
                         android:textSize="18sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -106,16 +68,16 @@
                     android:orientation="vertical">
 
                     <ImageView
+                        android:id="@+id/notes_image"
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/progress" />
+                        android:scaleType="centerCrop" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
-                        android:text="Notes"
+                        android:text="@string/notes"
                         android:textSize="18sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -134,16 +96,16 @@
                     android:orientation="vertical">
 
                     <ImageView
+                        android:id="@+id/schedule_image"
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/schedule" />
+                        android:scaleType="centerCrop" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
-                        android:text="Schedule"
+                        android:text="@string/schedule"
                         android:textSize="18sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

@@ -43,7 +43,7 @@ public class AddClientsFragment extends Fragment {
         binding.checkboxSunday.setOnCheckedChangeListener((buttonView, isChecked) -> collectDayAndTime(binding.checkboxSunday, "Sunday"));
 
         Spinner fitnessLevelDropdown = binding.fitnessLevelSpinner;
-        String[] level = new String[]{"Beginner", "Intermediate", "Advanced"};
+        String[] level = getResources().getStringArray(R.array.levels_array);
         // Create an adapter to describe how the items are displayed.
         ArrayAdapter<String> levelAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, level);
         fitnessLevelDropdown.setAdapter(levelAdapter);
@@ -125,7 +125,7 @@ public class AddClientsFragment extends Fragment {
         String fitnessGoals = binding.clientFitnessGoals.getText().toString();
         String membershipStartDate = binding.clientMembershipStartDate.getText().toString();
         double weight = Double.parseDouble(binding.clientWeight.getText().toString());
-        double bodyFat = Double.parseDouble(binding.clientBodyFatPercentage.getText().toString());
+        String notes = binding.clientNotes.getText().toString();
 
         DatabaseHelper db = new DatabaseHelper(getContext());
 
@@ -138,7 +138,7 @@ public class AddClientsFragment extends Fragment {
         extractTrainingSlot(binding.checkboxSaturday, trainingSlots, "Saturday");
         extractTrainingSlot(binding.checkboxSunday, trainingSlots, "Sunday");
 
-        long clientId = db.addClientWithTrainingSlots(name, gender, dob, phone, selectedLevel, fitnessGoals, membershipStartDate, weight, bodyFat, trainingSlots);
+        long clientId = db.addClientWithTrainingSlots(name, gender, dob, phone, selectedLevel, fitnessGoals, membershipStartDate, weight, notes, trainingSlots);
 
         for (Map.Entry<String, String> entry : selectedDays.entrySet()) {
             String day = entry.getKey();

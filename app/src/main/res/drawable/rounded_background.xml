@@ -3,7 +3,7 @@
     <corners android:radius="30dp"/> <!-- Corner radius -->
     <stroke
         android:width="2dp"
-        android:color="@color/purple"/>
+        android:color="@color/custom_pink"/>
     <padding
         android:left="10dp"
         android:top="10dp"

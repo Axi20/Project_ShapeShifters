@@ -200,8 +200,11 @@ public class AddWorkoutsFragment extends Fragment {
             String name = ((TextView) row.getChildAt(0)).getText().toString();
             int reps = Integer.parseInt(((TextView) row.getChildAt(1)).getText().toString());
             int sets = Integer.parseInt(((TextView) row.getChildAt(2)).getText().toString());
-            Float weight = Float.parseFloat(((TextView) row.getChildAt(3)).getText().toString().replace(" kg", ""));
-
+            //Float weight = Float.parseFloat(((TextView) row.getChildAt(3)).getText().toString().replace(" kg", ""));
+            String weightString = ((TextView) row.getChildAt(3)).getText().toString().replace(" kg", "");
+            // Replace comma with dot for proper parsing
+            weightString = weightString.replace(",", ".");
+            Float weight = Float.parseFloat(weightString);
             exercises.add(new Exercise(name, reps, sets, weight));
         }
 

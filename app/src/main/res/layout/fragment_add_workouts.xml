@@ -32,14 +32,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Choose client"
+                android:text="@string/choose_client"
                 android:textSize="20sp" />
 
             <Spinner
                 android:id="@+id/choose_client_spinner"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="choose_client" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout
@@ -55,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:text="Choose date"
+                android:text="@string/choose_date"
                 android:textSize="20sp" />
 
             <Button
@@ -71,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:layout_marginTop="10dp"
-            android:text="Add notes"
+            android:text="@string/add_notes"
             android:textSize="20sp" />
 
         <EditText
@@ -92,14 +91,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Add exercise"
+                android:text="@string/add_exercise"
                 android:textSize="20sp" />
 
             <Button
                 android:id="@+id/add_exercise_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add" />
+                android:textColor="@color/custom_grey"
+                android:text="@string/add" />
         </LinearLayout>
 
         <TableLayout
@@ -112,30 +112,34 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/purple_200">
+                android:background="@color/custom_grey">
 
                 <TextView
                     android:gravity="center"
                     android:padding="8dp"
-                    android:text="Exercise"
+                    android:textColor="@color/custom_black"
+                    android:text="@string/exercise"
                     android:textStyle="bold" />
 
                 <TextView
                     android:gravity="center"
                     android:padding="8dp"
-                    android:text="Reps"
+                    android:textColor="@color/custom_black"
+                    android:text="@string/reps2"
                     android:textStyle="bold" />
 
                 <TextView
                     android:gravity="center"
                     android:padding="8dp"
-                    android:text="Sets"
+                    android:textColor="@color/custom_black"
+                    android:text="@string/sets2"
                     android:textStyle="bold" />
 
                 <TextView
                     android:gravity="center"
                     android:padding="8dp"
-                    android:text="Weight"
+                    android:textColor="@color/custom_black"
+                    android:text="@string/weight2"
                     android:textStyle="bold" />
             </TableRow>
             <!-- TableRows will be added dynamically here -->
@@ -145,8 +149,9 @@
             android:id="@+id/add_workout_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/custom_grey"
             android:layout_marginTop="20dp"
-            android:text="save" />
+            android:text="@string/save" />
     </LinearLayout>
 
 

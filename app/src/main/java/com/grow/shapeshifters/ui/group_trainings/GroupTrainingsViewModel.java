@@ -10,7 +10,7 @@ public class GroupTrainingsViewModel extends ViewModel {
 
     public GroupTrainingsViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is group training fragment");
+        mText.setValue("Group training - under implementation");
     }
 
     public LiveData<String> getText() {

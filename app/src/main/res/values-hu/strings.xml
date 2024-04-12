@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <string name="app_name">ShapeShifters</string>
+        <string name="action_settings">Beállítások</string>
+
+        <string name="menu_home">Főoldal</string>
+        <string name="shapeshifters">ShapeShifters</string>
+        <string name="email_hint">Email cím</string>
+        <string name="password_hint">Jelszó</string>
+        <string name="login">Bejelentkezés</string>
+        <string name="signup">Regisztráció</string>
+        <string name="forgot_password">Elfelejtett jelszó?</string>
+        <string name="new_user_sign_up">Nincs fiókod? Regisztrálj!</string>
+        <string name="first_name">Vezetéknév</string>
+        <string name="last_name">Keresztnév</string>
+        <string name="account_type">Edzőként regisztrálok</string>
+        <string name="user_login">Már van fiókod? Jelentkezz be!</string>
+
+        <string name="your_username">Felhasználónév</string>
+        <string name="your_email">Email cym</string>
+        <string name="menu_group_training">Csoportos edzések</string>
+        <string name="menu_personal_trainings">Személyi edzések</string>
+        <string name="menu_manage_clients">Vendégek kezelése</string>
+        <string name="menu_add_clients">Vendég hozzáadása</string>
+        <string name="submit">Hozzáadás</string>
+        <string name="hint_name">Teljes név</string>
+        <string name="hint_gender">Nem</string>
+        <string name="hint_male">Férfi</string>
+        <string name="hint_female">Nő</string>
+        <string name="hint_date_of_birth">Születési idő</string>
+        <string name="hint_phone_number">Telefonszám</string>
+        <string name="hint_fitness_level">Jelenlegi szint</string>
+        <string name="hint_fitness_goals">Célok</string>
+        <string name="hint_preferred_training_slots">Preferált edzés időpontok</string>
+        <string name="hint_m">H</string>
+        <string name="hint_t">K</string>
+        <string name="hint_w">SZ</string>
+        <string name="hint_th">CS</string>
+        <string name="hint_f">P</string>
+        <string name="hint_s">SZ</string>
+        <string name="hint_sun">V</string>
+        <string name="hint_membership_start_date">Edzés kezdete</string>
+        <string name="hint_weight_kg">Súly (kg)</string>
+        <string name="menu_add_workouts">Edzésterv hozzáadása</string>
+        <string name="exercise_name">Feladat megnevezése</string>
+        <string name="reps">Ismétlés szám</string>
+        <string name="sets">Körök száma</string>
+        <string name="weight">Súly (kg)</string>
+        <string name="menu_manage_workouts">Edzések kezelése</string>
+        <string name="notes">Jegyzetek</string>
+    <string name="choose_client">Válassz vendéget</string>
+        <string name="choose_date">Válassz dátumot</string>
+        <string name="add_notes">Jegyzetek</string>
+        <string name="add_exercise">Feladat hozzáadása</string>
+        <string name="add">Új</string>
+        <string name="exercise">Feladat</string>
+        <string name="reps2">Ism.</string>
+        <string name="sets2">Kör</string>
+        <string name="weight2">Súly</string>
+        <string name="save">Mentés</string>
+        <string name="workouts">Edzések</string>
+        <string name="schedule">Órarend</string>
+
+    <string-array name="levels_array">
+        <item>Kezdő</item>
+        <item>Középhaladó</item>
+        <item>Haladó</item>
+    </string-array>
+</resources>

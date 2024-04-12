@@ -35,7 +35,7 @@
             android:layout_marginEnd="5dp"
             android:layout_weight="1"
             android:background="@drawable/rounded_background"
-            android:backgroundTint="@color/purple"
+            android:backgroundTint="@color/custom_grey"
             android:padding="5dp"
             app:srcCompat="@drawable/ic_show" />
 
@@ -47,7 +47,7 @@
             android:layout_marginEnd="5dp"
             android:layout_weight="1"
             android:background="@drawable/rounded_background"
-            android:backgroundTint="@color/purple"
+            android:backgroundTint="@color/custom_grey"
             android:padding="5dp"
             app:srcCompat="@drawable/ic_edit" />
 
@@ -58,7 +58,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:background="@drawable/rounded_background"
-            android:backgroundTint="@color/purple"
+            android:backgroundTint="@color/custom_grey"
             android:padding="5dp"
             app:srcCompat="@drawable/ic_delete" />
     </LinearLayout>
