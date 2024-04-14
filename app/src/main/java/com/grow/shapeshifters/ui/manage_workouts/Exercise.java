@@ -24,6 +24,14 @@ public class Exercise {
         this.id = id;
     }
 
+    public long getPersonalTrainingId() {
+        return id;
+    }
+
+    public void setPersonalTrainingId(long id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }

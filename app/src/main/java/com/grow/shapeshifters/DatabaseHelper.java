@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.grow.shapeshifters.ui.manage_clients.Client;
 import com.grow.shapeshifters.ui.manage_workouts.Exercise;
+import com.grow.shapeshifters.ui.manage_workouts.WorkoutDetail;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -499,5 +500,73 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return workoutId; // Return the ID of the newly added workout.
     }
+
+    /**
+     * Retrieves all exercises from the database.
+     * This method queries the database for all entries in the exercises table, constructs a list of Exercise objects
+     * with the data retrieved for each row, and returns this list. Each Exercise object in the list contains at least
+     * the exercise name, which is extracted from the cursor.
+     *
+     * @return A list of Exercise objects, each representing an exercise in the database.
+     * The list will be empty if there are no exercises.
+     */
+    public List<Exercise> getAllExercises() {
+        List<Exercise> exercises = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT * FROM " + TABLE_EXERCISES;
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                long id = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_EXERCISES_ID));
+                String name = cursor.getString(cursor.getColumnIndexOrThrow(KEY_EXERCISES_NAME));
+                int repetitions = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_EXERCISES_REPETITIONS));
+                int sets = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_EXERCISES_SETS));
+                float weight = cursor.getFloat(cursor.getColumnIndexOrThrow(KEY_EXERCISES_WEIGHT));
+
+                Exercise exercise = new Exercise(name, repetitions, sets, weight);
+                exercise.setId(id); // Set the ID separately since it's not included in the constructor
+                exercises.add(exercise);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return exercises;
+    }
+
+    /**
+     * Retrieves a list of workout details including the workout date and the corresponding client's name.
+     * This method performs a SQL JOIN between the personal_trainings table and the clients table to fetch the
+     * necessary information.
+     *
+     * @return A list of WorkoutDetail objects, each containing the client's name and the workout date.
+     */
+    public List<WorkoutDetail> getWorkoutDetails() {
+        List<WorkoutDetail> workoutDetails = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Constructing SQL JOIN query
+        String query = "SELECT pt." + KEY_PERSONAL_TRAININGS_WORKOUT_DATE + ", cl." + KEY_CLIENT_NAME +
+                " FROM " + TABLE_PERSONAL_TRAININGS + " pt" +
+                " JOIN " + TABLE_CLIENTS + " cl" +
+                " ON pt." + KEY_PERSONAL_TRAININGS_CLIENT_ID + " = cl." + KEY_CLIENT_ID;
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                String workoutDate = cursor.getString(cursor.getColumnIndexOrThrow(KEY_PERSONAL_TRAININGS_WORKOUT_DATE));
+                String clientName = cursor.getString(cursor.getColumnIndexOrThrow(KEY_CLIENT_NAME));
+
+                WorkoutDetail detail = new WorkoutDetail(clientName, workoutDate);
+                workoutDetails.add(detail);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return workoutDetails;
+    }
+
+
+
 
 }
