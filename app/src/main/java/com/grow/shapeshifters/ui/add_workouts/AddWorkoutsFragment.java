@@ -23,9 +23,10 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.grow.shapeshifters.DatabaseHelper;
 import com.grow.shapeshifters.R;
 import com.grow.shapeshifters.databinding.FragmentAddWorkoutsBinding;
-import com.grow.shapeshifters.ui.add_clients.AddClientsFragment;
 import com.grow.shapeshifters.ui.manage_clients.Client;
 import com.grow.shapeshifters.ui.manage_workouts.Exercise;
+import com.grow.shapeshifters.ui.manage_workouts.ManageWorkoutsAdapter;
+
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -71,7 +72,6 @@ public class AddWorkoutsFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
-
     public void showDateTimeDialog(final TextView textViewDateAndTime) {
         final Calendar currentDate = Calendar.getInstance();
         final Calendar date = Calendar.getInstance();
@@ -99,15 +99,15 @@ public class AddWorkoutsFragment extends Fragment {
         final EditText editTextWeight = dialogView.findViewById(R.id.editTextWeight);
 
         // Set up the buttons.
-        dialogBuilder.setPositiveButton("Add", (dialog, which) -> {
+        dialogBuilder.setPositiveButton(requireContext().getString(R.string.add), (dialog, which) -> {
             String exerciseName = editTextExerciseName.getText().toString().trim();
             String repsString = editTextReps.getText().toString().trim();
             String setsString = editTextSets.getText().toString().trim();
             String weightString = editTextWeight.getText().toString().trim();
 
             // Check if any of the fields are empty.
-            if (exerciseName.isEmpty() || repsString.isEmpty() || setsString.isEmpty() || weightString.isEmpty()) {
-                Toast.makeText(getContext(), "Please fill in all the fields.", Toast.LENGTH_SHORT).show();
+            if (exerciseName.isEmpty() || repsString.isEmpty() || setsString.isEmpty()) {
+                Toast.makeText(getContext(), requireContext().getString(R.string.required_fields), Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -122,14 +122,13 @@ public class AddWorkoutsFragment extends Fragment {
                 sets = Integer.parseInt(setsString);
                 weight = Float.parseFloat(weightString);
             } catch (NumberFormatException e) {
-                Toast.makeText(getContext(), "Please enter valid numbers.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), requireContext().getString(R.string.bad_input), Toast.LENGTH_SHORT).show();
                 return;
             }
-
             addExerciseToTable(exerciseName, reps, sets, weight);
         });
 
-        dialogBuilder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+        dialogBuilder.setNegativeButton(requireContext().getString(R.string.cancel), (dialog, which) -> dialog.cancel());
 
         // Create and show the AlertDialog.
         AlertDialog addExerciseDialog = dialogBuilder.create();
@@ -138,61 +137,54 @@ public class AddWorkoutsFragment extends Fragment {
     private void addExerciseToTable(String exerciseName, int reps, int sets, float weight) {
         TableLayout tableLayout = binding.exercisesTable;
 
-        // Create a new row to be added.
         TableRow tableRow = new TableRow(getContext());
         tableRow.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
 
-        // Define text views for the columns.
-        TextView textViewName = new TextView(getContext());
-        textViewName.setText(exerciseName);
-        textViewName.setGravity(Gravity.CENTER);
+        // A helper method to create text views simplifies this process.
+        tableRow.addView(createTextView(exerciseName));
+        tableRow.addView(createTextView(String.valueOf(reps)));
+        tableRow.addView(createTextView(String.valueOf(sets)));
+        tableRow.addView(createTextView(String.format(Locale.getDefault(), "%.2f kg", weight)));
 
-        TextView textViewReps = new TextView(getContext());
-        textViewReps.setText(String.valueOf(reps));
-        textViewReps.setGravity(Gravity.CENTER);
-
-        TextView textViewSets = new TextView(getContext());
-        textViewSets.setText(String.valueOf(sets));
-        textViewSets.setGravity(Gravity.CENTER);
-
-        TextView textViewWeight = new TextView(getContext());
-        textViewWeight.setText(String.format(Locale.getDefault(), "%.2f kg", weight));
-        textViewWeight.setGravity(Gravity.CENTER);
-
-        // Add Text Views to row.
-        tableRow.addView(textViewName);
-        tableRow.addView(textViewReps);
-        tableRow.addView(textViewSets);
-        tableRow.addView(textViewWeight);
-
-        // Add the TableRow to the TableLayout
-        tableLayout.addView(tableRow, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
+        tableLayout.addView(tableRow);
+    }
+    private TextView createTextView(String text) {
+        TextView textView = new TextView(getContext());
+        textView.setText(text);
+        textView.setGravity(Gravity.CENTER);
+        textView.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1));
+        return textView;
     }
     public void saveWorkout() {
         long clientId = ((Client)binding.chooseClientSpinner.getSelectedItem()).getId();
-        String workoutDate = binding.dateOfWorkout.getText().toString();
+        String workoutDate = ManageWorkoutsAdapter.formatDate(binding.dateOfWorkout.getText().toString());
         String notes = binding.addNotes.getText().toString();
 
         List<Exercise> exercises = collectExercisesFromTable();
 
+        if (getContext() == null) return;
         DatabaseHelper databaseHelper = new DatabaseHelper(getContext());
-        long workoutId = databaseHelper.saveWorkoutDetails(clientId, workoutDate, notes, exercises);
 
-        if (workoutId != -1) {
-            Toast.makeText(getContext(), "Workout added successfully", Toast.LENGTH_SHORT).show();
-            databaseHelper.close();
-            NavController navController = NavHostFragment.findNavController(AddWorkoutsFragment.this);
-            navController.navigate(R.id.nav_manage_workouts);
+        // @TODO Fix this part as it's still allow to save the workout for the same client and same time slot.
+        if (!databaseHelper.workoutExists(clientId, workoutDate)) {
+            long workoutId = databaseHelper.saveWorkoutDetails(clientId, workoutDate, notes, exercises);
+            if (workoutId != -1) {
+                Toast.makeText(getContext(), getString(R.string.workout_added), Toast.LENGTH_SHORT).show();
+                NavController navController = NavHostFragment.findNavController(this);
+                navController.navigate(R.id.nav_manage_workouts);
+            } else {
+                Toast.makeText(getContext(), getString(R.string.workout_add_failed), Toast.LENGTH_SHORT).show();
+            }
         } else {
-            Toast.makeText(getContext(), "Failed to add workout", Toast.LENGTH_SHORT).show();
-            databaseHelper.close();
+            Toast.makeText(getContext(), getString(R.string.workout_already_exists), Toast.LENGTH_SHORT).show();
         }
+        databaseHelper.close();
     }
     private List<Exercise> collectExercisesFromTable() {
         List<Exercise> exercises = new ArrayList<>();
         TableLayout table = binding.exercisesTable;
 
-        // Start from 1 to skip the header row
+        // Start from 1 to skip the header row.
         for (int i = 1; i < table.getChildCount(); i++) {
             TableRow row = (TableRow) table.getChildAt(i);
 

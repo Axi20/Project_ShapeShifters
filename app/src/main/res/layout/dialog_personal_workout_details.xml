@@ -1,0 +1,57 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/client_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Client Name"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/workout_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:textSize="20dp"
+            android:layout_marginBottom="10dp"
+            android:hint="Workout Date" />
+
+        <TableLayout
+            android:background="@drawable/rounded_background"
+            android:id="@+id/exercise_details_table"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="*">
+            <!-- Rows will be added programmatically -->
+        </TableLayout>
+
+        <EditText
+            android:id="@+id/workout_notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:textSize="20dp"
+            android:hint="Workout Notes" />
+
+        <Button
+            android:id="@+id/save_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="@string/ok" />
+
+    </LinearLayout>
+
+</ScrollView>

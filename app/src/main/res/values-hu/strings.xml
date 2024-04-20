@@ -60,10 +60,26 @@
         <string name="save">Mentés</string>
         <string name="workouts">Edzések</string>
         <string name="schedule">Órarend</string>
+        <string name="delete">Törlés</string>
+        <string name="cancel">Mégsem</string>
+        <string name="confirm_delete">Biztosan törölni szeretnéd?</string>
+        <string name="workout_added">Sikeres hozzáadás</string>
+        <string name="workout_add_failed">Hiba történt</string>
+        <string name="required_fields">A mezők kitöltése kötelező</string>
+        <string name="bad_input">Nem megfelelő beviteli érték</string>
+
+
 
     <string-array name="levels_array">
         <item>Kezdő</item>
         <item>Középhaladó</item>
         <item>Haladó</item>
     </string-array>
+
+    <string name="client_name_with_placeholder">Vendég neve: %1$s</string>
+    <string name="workout_notes_with_placeholder">Jegyzetek: \n%1$s</string>
+    <string name="workout_date_with_placeholder">Edzés dátuma: %1$s</string>
+    <string name="workout_date2_with_placeholder">%1$s - %2$s</string>
+    <string name="ok">OK</string>
+    <string name="workout_already_exists">A megadott adattal már szerepel edzés</string>
 </resources>

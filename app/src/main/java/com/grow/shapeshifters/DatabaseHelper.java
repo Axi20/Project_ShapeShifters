@@ -4,15 +4,14 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Base64;
 import android.util.Log;
-
 import com.grow.shapeshifters.ui.manage_clients.Client;
 import com.grow.shapeshifters.ui.manage_workouts.Exercise;
 import com.grow.shapeshifters.ui.manage_workouts.WorkoutDetail;
-
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
@@ -459,8 +458,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public long saveWorkoutDetails(long clientId, String workoutDate, String notes, List<Exercise> exercises) {
         SQLiteDatabase db = this.getWritableDatabase();
-
-        // Start a transaction to ensure both workout and exercises are saved atomically.
         db.beginTransaction();
         long workoutId = -1;
         try {
@@ -468,16 +465,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             workoutValues.put(KEY_PERSONAL_TRAININGS_CLIENT_ID, clientId);
             workoutValues.put(KEY_PERSONAL_TRAININGS_WORKOUT_DATE, workoutDate);
             workoutValues.put(KEY_PERSONAL_TRAININGS_NOTES, notes);
-
-            // Inserting Workout Details
             workoutId = db.insert(TABLE_PERSONAL_TRAININGS, null, workoutValues);
+            if (workoutId == -1) throw new SQLException("Failed to insert workout");
 
-            // Check if workout was successfully added
-            if (workoutId == -1) {
-                return -1; // Workout insertion failed
-            }
-
-            // Inserting Exercises for the Workout
             for (Exercise exercise : exercises) {
                 ContentValues exerciseValues = new ContentValues();
                 exerciseValues.put(KEY_EXERCISES_PERSONAL_TRAININGS_ID, workoutId);
@@ -485,20 +475,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 exerciseValues.put(KEY_EXERCISES_REPETITIONS, exercise.getRepetitions());
                 exerciseValues.put(KEY_EXERCISES_SETS, exercise.getSets());
                 exerciseValues.put(KEY_EXERCISES_WEIGHT, exercise.getWeight());
-
-                long exerciseId = db.insert(TABLE_EXERCISES, null, exerciseValues);
-                if (exerciseId == -1) {
-                    db.endTransaction(); // End the transaction prematurely.
-                    return -1; // Exercise insertion failed.
+                if (db.insert(TABLE_EXERCISES, null, exerciseValues) == -1) {
+                    throw new SQLException("Failed to insert exercise");
                 }
             }
-
-            db.setTransactionSuccessful(); // Mark the transaction as successful.
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.e("DatabaseError", "Error saving workout details", e);
+            workoutId = -1; // Reset workout ID to indicate failure
         } finally {
-            db.endTransaction(); // End the transaction.
+            db.endTransaction();
         }
-
-        return workoutId; // Return the ID of the newly added workout.
+        return workoutId;
     }
 
     /**
@@ -510,11 +498,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @return A list of Exercise objects, each representing an exercise in the database.
      * The list will be empty if there are no exercises.
      */
-    public List<Exercise> getAllExercises() {
+    public List<Exercise> getAllExercises(long workoutId) {
         List<Exercise> exercises = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String selectQuery = "SELECT * FROM " + TABLE_EXERCISES;
+        // Assuming KEY_EXERCISES_WORKOUT_ID is the column that references the workout ID in the exercises table
+        String selectQuery = "SELECT * FROM " + TABLE_EXERCISES + " WHERE " + KEY_EXERCISES_PERSONAL_TRAININGS_ID + " = " + workoutId;
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
@@ -525,8 +514,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 int sets = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_EXERCISES_SETS));
                 float weight = cursor.getFloat(cursor.getColumnIndexOrThrow(KEY_EXERCISES_WEIGHT));
 
-                Exercise exercise = new Exercise(name, repetitions, sets, weight);
-                exercise.setId(id); // Set the ID separately since it's not included in the constructor
+                // Ensure Exercise class constructor matches these parameters
+                Exercise exercise = new Exercise( name, repetitions, sets, weight);
                 exercises.add(exercise);
             } while (cursor.moveToNext());
         }
@@ -545,20 +534,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<WorkoutDetail> workoutDetails = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        // Constructing SQL JOIN query
-        String query = "SELECT pt." + KEY_PERSONAL_TRAININGS_WORKOUT_DATE + ", cl." + KEY_CLIENT_NAME +
+        // Constructing an updated SQL query to include all necessary exercise details
+        String query = "SELECT pt." + KEY_PERSONAL_TRAININGS_ID + ", pt." + KEY_PERSONAL_TRAININGS_WORKOUT_DATE +
+                ", pt." + KEY_PERSONAL_TRAININGS_NOTES + ", cl." + KEY_CLIENT_NAME +
+                ", ex." + KEY_EXERCISES_NAME + ", ex." + KEY_EXERCISES_REPETITIONS +
+                ", ex." + KEY_EXERCISES_SETS + ", ex." + KEY_EXERCISES_WEIGHT +
                 " FROM " + TABLE_PERSONAL_TRAININGS + " pt" +
-                " JOIN " + TABLE_CLIENTS + " cl" +
-                " ON pt." + KEY_PERSONAL_TRAININGS_CLIENT_ID + " = cl." + KEY_CLIENT_ID;
-
+                " JOIN " + TABLE_CLIENTS + " cl ON pt." + KEY_PERSONAL_TRAININGS_CLIENT_ID + " = cl." + KEY_CLIENT_ID +
+                " LEFT JOIN " + TABLE_EXERCISES + " ex ON pt." + KEY_PERSONAL_TRAININGS_ID + " = ex." + KEY_EXERCISES_ID;
         Cursor cursor = db.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
             do {
+                long workoutId = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_PERSONAL_TRAININGS_ID));
                 String workoutDate = cursor.getString(cursor.getColumnIndexOrThrow(KEY_PERSONAL_TRAININGS_WORKOUT_DATE));
+                String workoutNotes = cursor.getString(cursor.getColumnIndexOrThrow(KEY_PERSONAL_TRAININGS_NOTES));
                 String clientName = cursor.getString(cursor.getColumnIndexOrThrow(KEY_CLIENT_NAME));
+                String exerciseName = cursor.getString(cursor.getColumnIndexOrThrow(KEY_EXERCISES_NAME));
+                String exerciseRepetition = cursor.getString(cursor.getColumnIndexOrThrow(KEY_EXERCISES_REPETITIONS));
+                String exerciseSet = cursor.getString(cursor.getColumnIndexOrThrow(KEY_EXERCISES_SETS));
+                String exerciseWeight = cursor.getString(cursor.getColumnIndexOrThrow(KEY_EXERCISES_WEIGHT));
 
-                WorkoutDetail detail = new WorkoutDetail(clientName, workoutDate);
+                WorkoutDetail detail = new WorkoutDetail(clientName, workoutDate, workoutId, workoutNotes,
+                        exerciseName, exerciseRepetition, exerciseSet, exerciseWeight);
                 workoutDetails.add(detail);
             } while (cursor.moveToNext());
         }
@@ -566,7 +564,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return workoutDetails;
     }
 
+/**
+ * Deletes a workout record from the database.
+ * This method removes the workout associated with the specified ID from the
+ * 'TABLE_PERSONAL_TRAININGS' table.
+ *
+ * @param id The unique identifier of the workout to be deleted.
+ */
+    public void deleteWorkout(long id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_PERSONAL_TRAININGS, "personal_trainings_id=?", new String[]{String.valueOf(id)});
+        db.close();
+    }
 
-
+    /**
+     * Checks if a workout exists in the database for a specific client on a given date.
+     *
+     * @param clientId The ID of the client.
+     * @param workoutDate The date of the workout to check, formatted as a String.
+     * @return true if the workout exists, false otherwise.
+     */
+    public boolean workoutExists(long clientId, String workoutDate) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] columns = {KEY_PERSONAL_TRAININGS_ID};
+        String selection = KEY_PERSONAL_TRAININGS_CLIENT_ID + "=?" + " AND " + KEY_PERSONAL_TRAININGS_WORKOUT_DATE + "=?";
+        String[] selectionArgs = {String.valueOf(clientId), workoutDate};
+        Cursor cursor = db.query(TABLE_PERSONAL_TRAININGS, columns, selection, selectionArgs, null, null, null);
+        boolean exists = cursor.getCount() > 0;
+        cursor.close();
+        return exists;
+    }
 
 }
