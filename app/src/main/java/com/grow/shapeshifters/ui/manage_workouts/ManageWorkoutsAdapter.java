@@ -66,7 +66,7 @@ public class ManageWorkoutsAdapter extends RecyclerView.Adapter<ManageWorkoutsAd
         return workoutDetails.size();
     }
 
-    private void showDeleteConfirmationDialog(int position) {
+    public void showDeleteConfirmationDialog(int position) {
         new AlertDialog.Builder(context)
                 .setTitle(context.getString(R.string.delete))
                 .setMessage(context.getString(R.string.confirm_delete))

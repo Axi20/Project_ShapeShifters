@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Base64;
 import android.util.Log;
 import com.grow.shapeshifters.ui.manage_clients.Client;
+import com.grow.shapeshifters.ui.manage_clients.TrainingSlot;
 import com.grow.shapeshifters.ui.manage_workouts.Exercise;
 import com.grow.shapeshifters.ui.manage_workouts.WorkoutDetail;
 import java.security.NoSuchAlgorithmException;
@@ -439,7 +440,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do {
                 Client client = new Client();
                 client.setId(cursor.getLong(cursor.getColumnIndexOrThrow(KEY_CLIENT_ID)));
+                client.setDateOfBirth(cursor.getString(cursor.getColumnIndexOrThrow(KEY_CLIENT_DATE_OF_BIRTH)));
+                client.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(KEY_CLIENT_PHONE_NUMBER)));
+                client.setFitnessLevel(cursor.getString(cursor.getColumnIndexOrThrow(KEY_CLIENT_FITNESS_LEVEL)));
+                client.setFitnessGoal(cursor.getString(cursor.getColumnIndexOrThrow(KEY_CLIENT_FITNESS_GOAL)));
+                client.setMembershipStartDate(cursor.getString(cursor.getColumnIndexOrThrow(KEY_CLIENT_MEMBERSHIP_START_DATE)));
+                client.setWeight(cursor.getString(cursor.getColumnIndexOrThrow(KEY_CLIENT_WEIGHT)));
+                client.setNotes(cursor.getString(cursor.getColumnIndexOrThrow(KEY_CLIENT_NOTES)));
                 client.setName(cursor.getString(cursor.getColumnIndexOrThrow(KEY_CLIENT_NAME)));
+                // Get and set training slots for the client
+                List<TrainingSlot> trainingSlots = getTrainingSlotsForClient(client.getId());
+                client.setTrainingSlots(trainingSlots);
                 clients.add(client);
             } while (cursor.moveToNext());
         }
@@ -564,7 +575,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return workoutDetails;
     }
 
-/**
+    /**
  * Deletes a workout record from the database.
  * This method removes the workout associated with the specified ID from the
  * 'TABLE_PERSONAL_TRAININGS' table.
@@ -574,6 +585,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void deleteWorkout(long id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_PERSONAL_TRAININGS, "personal_trainings_id=?", new String[]{String.valueOf(id)});
+        db.close();
+    }
+
+    /**
+     * Deletes a client record from the database.
+     * This method removes the client associated with the specified ID from the
+     * 'TABLE_CLIENTS' table.
+     *
+     * @param id The unique identifier of the client to be deleted.
+     */
+    public void deleteClient(long id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_CLIENTS, "client_id=?", new String[]{String.valueOf(id)});
         db.close();
     }
 
@@ -594,5 +618,45 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return exists;
     }
+
+    public List<TrainingSlot> getTrainingSlotsForClient(long clientId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        List<TrainingSlot> trainingSlots = new ArrayList<>();
+
+        String[] projection = {
+                "training_slot_day_of_week",
+                "training_slot_time_slot"
+        };
+
+        String selection = "training_slot_client_id = ?";
+
+        String[] selectionArgs = { String.valueOf(clientId) };
+
+        Cursor cursor = db.query(
+                "training_slots",
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    String dayOfWeek = cursor.getString(cursor.getColumnIndexOrThrow("training_slot_day_of_week"));
+                    String timeSlot = cursor.getString(cursor.getColumnIndexOrThrow("training_slot_time_slot"));
+                    trainingSlots.add(new TrainingSlot(dayOfWeek, timeSlot));
+                } while (cursor.moveToNext());
+            }
+        } finally {
+            cursor.close();
+        }
+
+        db.close();
+        return trainingSlots;
+    }
+
 
 }

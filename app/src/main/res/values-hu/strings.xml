@@ -68,8 +68,6 @@
         <string name="required_fields">A mezők kitöltése kötelező</string>
         <string name="bad_input">Nem megfelelő beviteli érték</string>
 
-
-
     <string-array name="levels_array">
         <item>Kezdő</item>
         <item>Középhaladó</item>
@@ -82,4 +80,13 @@
     <string name="workout_date2_with_placeholder">%1$s - %2$s</string>
     <string name="ok">OK</string>
     <string name="workout_already_exists">A megadott adattal már szerepel edzés</string>
+    <string name="confirm_client_delete">Ez törölni fogja a vendéghez kapcsolt összes adatot.\n\nBiztosan törölni szeretnéd?</string>
+    <string name="client_date_of_birth_with_placeholder">Születési idő: %1$s</string>
+    <string name="client_phone_number_with_placeholder">Telefonszám: %1$s</string>
+    <string name="client_fitness_level_with_placeholder">Szint: %1$s</string>
+    <string name="client_fitness_goal_with_placeholder">Cél: %1$s</string>
+    <string name="client_training_slot_with_placeholder">Edzések: \n%1$s</string>
+    <string name="client_membership_start_date_with_placeholder">Kezdési dátum: %1$s</string>
+    <string name="client_weight_with_placeholder">Súly: %1$s</string>
+    <string name="client_notes_with_placeholder">Jegyzetek: \n%1$s</string>
 </resources>

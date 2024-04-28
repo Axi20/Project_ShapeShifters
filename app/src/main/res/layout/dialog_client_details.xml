@@ -1,0 +1,113 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/frame"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/client_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Client Name"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/client_date_of_birth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Date of birth"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/client_phone_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Phone number"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/client_fitness_level"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fitness level"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/client_fitness_goals"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fitness goals"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/client_training_slots_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:textSize="20dp"
+            android:text="Trainings"
+            android:layout_marginBottom="10dp"
+             />
+
+        <TextView
+            android:id="@+id/client_membership_start"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Membership start date"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/client_weight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Weight"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="20dp" />
+
+        <EditText
+            android:id="@+id/client_notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:textSize="20dp"
+            android:inputType="textMultiLine"
+            android:layout_marginBottom="10dp"
+            android:hint="Notes" />
+
+        <Button
+            android:id="@+id/save_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="@string/ok" />
+
+    </LinearLayout>
+
+</ScrollView>

@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,8 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ManageClientsFragment extends Fragment {
-
-    private RecyclerView recyclerView;
     private ManageClientsAdapter adapter;
     private List<Client> clients;
     private FragmentManageClientsBinding binding;

@@ -86,4 +86,13 @@
     <string name="workout_date2_with_placeholder">%1$s - %2$s</string>
     <string name="ok">OK</string>
     <string name="workout_already_exists">Workout already exist</string>
+    <string name="confirm_client_delete">This will delete every data associated with this client.\n\nAre you sure you want to delete?</string>
+    <string name="client_date_of_birth_with_placeholder">Birthday: %1$s</string>
+    <string name="client_phone_number_with_placeholder">Phone number: %1$s</string>
+    <string name="client_fitness_level_with_placeholder">Level: %1$s</string>
+    <string name="client_fitness_goal_with_placeholder">Goals: %1$s</string>
+    <string name="client_training_slot_with_placeholder">Trainings: \n%1$s</string>
+    <string name="client_membership_start_date_with_placeholder">Start date: %1$s</string>
+    <string name="client_weight_with_placeholder">Weight: %1$s</string>
+    <string name="client_notes_with_placeholder">Notes: \n%1$s</string>
 </resources>
